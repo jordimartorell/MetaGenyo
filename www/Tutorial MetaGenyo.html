@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta  content="text/html; charset=UTF-8"  http-equiv="content-type">
+    <title>Tutorial MetaGenyo</title>
+    <meta  content="Jordi Martorell"  name="author">
+  </head>
+  <body  style="margin-left: 50px;">
+    <h1><span  style="color: rgb(51, 153, 153);">MetaGenyo: Simplifying your
+        meta-analysis</span></h1>
+    <h1><span  style="color: rgb(51, 153, 153);">TUTORIAL</span></h1>
+    <h2  style="margin-left: 0px; text-align: justify;">Introduction</h2>
+    <p  style="text-align: justify;">MetaGenyo is a simple, ready-to-use
+      software which has been designed to perform meta-analysis of genetic
+      association studies.</p>
+    <h2  style="margin-left: 0px; text-align: justify;">Get your data</h2>
+    <p  style="width: 1346px; text-align: justify;">The first step to do a
+      meta-analysis is, of course, to obtain the data. You must search in
+      bibliography genetic association studies related with the disease you are
+      interested in. You will find a lot of SNPs associated to that disease. You
+      must choose one of these SNPs and save the data for that SNP of multiple
+      studies. For saving and preparing your data you can use any suitable
+      program (Microsoft Excel, LibreOffice Calc...). </p>
+    <p  style="width: 1346px; text-align: justify;"></p>
+    <h2  style="margin-left: 0px; text-align: justify;">Prepare your data</h2>
+    <p  style="margin-left: 0px; width: 1346px; text-align: justify;">MetaGenyo
+      requires a specific format of data to work. The first n columns of your
+      file can contain any type of data of the different studies. N is defined
+      by yourself, but must be a number between 1 and 10. The following columns
+      must be exactly like this:</p>
+    <table  style="width: 1346px;"  border="1">
+      <tbody>
+        <tr>
+          <td  style="text-align: center;">AA cases</td>
+          <td  style="text-align: center;">Aa cases</td>
+          <td  style="text-align: center;">aa cases</td>
+          <td  style="text-align: center;">AA controls</td>
+          <td  style="text-align: center;">Aa controls</td>
+          <td  style="text-align: center;">aa controls</td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td  style="height: 19px;"><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p  style="margin-left: 0px; width: 1346px; text-align: justify;">The
+      meaning of each column are the following:</p>
+    <ul>
+      <li><span  style="font-weight: bold;">AA cases: </span>The number of
+        subjects with the disease (cases) that are homozygote for the <span  style="font-weight: bold;">A</span>
+        variant.</li>
+      <li><span  style="font-weight: bold;">Aa cases: </span>The number of
+        cases that are heterozygote for the <span  style="font-weight: bold;">A</span>
+        and <span  style="font-weight: bold;">a</span> variants.</li>
+      <li><span  style="font-weight: bold;">aa cases: </span>The number of
+        subject case) that are homozygote for the <span  style="font-weight: bold;">a</span>
+        variant.</li>
+      <li><span  style="font-weight: bold;">AA/Aa/aa controls: </span>The same
+        as the previous columns, but for the number of subjects with no disease
+        (controls).</li>
+    </ul>
+    <table  style="width: 1346px; height: 29px;"  border="1">
+      <tbody>
+        <tr>
+          <td  style="width: 1348px; background-color: rgb(255, 255, 0);">IMPORTANT:
+            <span  style="font-weight: bold;">A</span> and <span  style="font-weight: bold;">a</span>
+            variants are merely examples with no more significance. That means
+            that <span  style="font-weight: bold;">A</span> and <span  style="font-weight: bold;">a</span>
+            can correspond to any variant that you want to study.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>In conclusion, your data should be something like this (remember that
+      previous columns to "AA cases" column are choosen by yourself):</p>
+    <table  style="width: 1346px; height: 104px;"  border="1">
+      <tbody>
+        <tr>
+          <td  style="text-align: center;">Author</td>
+          <td  style="text-align: center;">Country</td>
+          <td  style="text-align: center;">Ethnicity</td>
+          <td  style="text-align: center;">AA cases</td>
+          <td  style="text-align: center;">Aa cases</td>
+          <td  style="text-align: center;">aa cases</td>
+          <td  style="text-align: center;">AA controls</td>
+          <td  style="text-align: center;">Aa controls</td>
+          <td  style="text-align: center;">aa controls</td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>You can write the column names that you want. The important is that data
+      must be in the correct order.</p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+  </body>
+</html>

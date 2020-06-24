@@ -1,0 +1,11 @@
+Author	Ethnicity	CC cases	AC cases	AA cases	CC controls	AC controls	AA controls
+Bai	Asian	153	162	49	313	299	65
+Saxena	Asian	116	87	10	62	72	6
+Garcia-Elorriaga	Mexican	11	9	1	13	34	0
+Arabadi	Asian	107	83	10	22	55	23
+Wang	Asian	66	122	36	113	138	24
+Kung	Asian	4	36	7	1	24	0
+Mtiraoui	African	425	395	97	403	298	47
+Scarpelli	European	301	226	24	615	449	67
+Chang	Asian	42	158	153	10	52	72
+Tsiavou	European	17	13	1	19	18	2
