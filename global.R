@@ -1,13 +1,16 @@
-####################################################################################################
-# Pedro Carmona-Saez
-# GENYO
-# pedro.carmona@genyo.es
-# December 2015
-####################################################################################################
+
+library(shiny)
+library(WriteXLS)
+library(DT)
+library(shinyjs)
+library(shinyBS)
+library(rhandsontable)
 library('HardyWeinberg')
 library(meta)
 library (metafor)
-require(gdata)
+require(readxl)
+options(shiny.sanitize.errors = FALSE)
+
 
 ####################################################################################################
 # Step 1. Calculates HWE in controls 
@@ -108,7 +111,7 @@ writemeta = function (data, model, columns, mode = 0) {
   meta1 = metabin(event.e, n.e, event.c, n.c,data=metadata,sm="OR", method="I", digits=1000000000000000000000000000000000000000000000)
   meta2 = summary(meta1)
   meta3 = capture.output(print.summary.meta(meta2))
-  
+
   metao1 = paste0("Number of combined studies: ", meta2$k)
   metao2 = matrix(0, nrow = 2, ncol = 6,
                   dimnames = list(c(1:2), c("Model", "OR", "95%-CI", "z", "p-value", "adjusted p-value")))
@@ -147,18 +150,19 @@ writemeta = function (data, model, columns, mode = 0) {
   if (metao2[2,6] == 0) {
     metao2[2,6] = "< 1e-10"
   }
-  
   metao3 = "Heterogeneity tests:"
+  ###server###tau2 = meta2$tau
+  tau2 = meta2$tau$TE
   metanuevo = matrix(nrow=1, ncol=5, dimnames = list(1, c("tau^2", "H", "I^2", "Q", "p-value")),
-                     data = c(round(meta2$tau^2, digits=4), round(meta2$H$TE, digits=4), round(meta2$I2$TE, digits=4),
-                         round(meta2$Q, digits=4), substr(meta3[12], gregexpr("\\ [^\\ ]*$", meta3[12])[[1]]+1, nchar(meta3[12]))))
-  metao4 = paste("tau^2 =", round(meta2$tau^2, digits=4))
+                     data = c(round(tau2^2, digits=4), round(meta2$H$TE, digits=4), round(meta2$I2$TE, digits=4),
+                         round(meta2$Q, digits=4), meta1$pval.Q))
+  metao4 = paste("tau^2 =", round(tau2^2, digits=4))
   metao5 = paste("H =", round(meta2$H$TE, digits=4))
   metao6 = paste("I^2 =", round(meta2$I2$TE, digits=4))
   
   metao7 = "Test of heterogeneity:"
   metao8 = data.frame(Q = meta2$Q, 
-                      "p-value" = substr(meta3[12], gregexpr("\\ [^\\ ]*$", meta3[12])[[1]]+1, nchar(meta3[12])))
+                      "p-value" = meta1$pval.Q)
   
   metao9 = "Details on meta-analytical method:"
   metao10 = "- Fixed effect estimate method: Inverse variance"
@@ -185,13 +189,13 @@ forestplot = function(data, model, columns, fixRan) {
   meta1 = metabin(event.e, n.e, event.c, n.c,data=metadata,studlab=data[,1],sm="OR", method="I")
   
   if (fixRan == "both"){
-    forest(meta1, main = model, showweights=TRUE)
+    meta::forest(meta1, main = model, showweights=TRUE)
   }
   else if (fixRan == "fixed"){
-    forest(meta1, main = model, showweights=TRUE, comb.random=F)
+    meta::forest(meta1, main = model, showweights=TRUE, comb.random=F)
   }
   else {
-    forest(meta1, main = model, showweights=TRUE, comb.fixed=F)
+    meta::forest(meta1, main = model, showweights=TRUE, comb.fixed=F)
   }
 }
 
@@ -204,10 +208,10 @@ funnelplot = function(data, model, columns, funLab) {
   
   meta1 = metabin(event.e, n.e, event.c, n.c,data=metadata,studlab=data[,1],sm="OR", method="I")
   if (funLab){
-    funnel(meta1, studlab=T)
+    meta::funnel(meta1, studlab=T)
   }
   else {
-    funnel(meta1, studlab=F)
+    meta::funnel(meta1, studlab=F)
   }
 }
 
@@ -329,7 +333,7 @@ results_grouped = function(data, columns, group) {
     dataframe[,"Number of studies"] = c(meta2$k, rep("", ngroups))
     
     # Se comprueba qué modelo se debe usar (fixed o random effect)
-    p_heter = as.numeric(substr(meta3[12], gregexpr("\\ [^\\ ]*$", meta3[12])[[1]]+1, nchar(meta3[12])))
+    p_heter = round(meta1$pval.Q, 4)
     
     if (p_heter > 0.1) {   ## Fixed effect
       dataframe[," "] = c(substr(meta3[4], 22, gregexpr(" ", meta3[4])[[1]][6]-1), rep("", ngroups)) ## OR
@@ -383,7 +387,7 @@ results_grouped = function(data, columns, group) {
         
       }
       else {
-        p_heter = as.numeric(substr(meta3[12], gregexpr("\\ [^\\ ]*$", meta3[12])[[1]]+1, nchar(meta3[12])))
+        p_heter = round(meta1$pval.Q, 4)
         
         if (p_heter > 0.1) {   ## Fixed effect
           
@@ -459,7 +463,7 @@ robustPlot = function(data, model, columns, fixRanRob){
   
   meta1 = metabin(event.e, n.e, event.c, n.c,data=metadata,studlab=data[,1],sm="OR", method="I")
   
-  forest(metainf(meta1, pooled = fixRanRob), main = model, showweights=TRUE)
+  meta::forest(metainf(meta1, pooled = fixRanRob), main = model, showweights=TRUE)
   
 }
 
