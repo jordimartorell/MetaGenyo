@@ -937,16 +937,6 @@ shinyServer(function(input, output, session) {
   ## Subgroup analysis ##
   ####################
   
-  # output$col = renderUI({
-  #   if (is.null(input$inputfile) & input$inputMode != "Interactive table") # No se debe mostrar nada si no se ha subido ningún archivo
-  #     return(NULL)
-  #   shinyjs::delay(500, shinyjs::show("stratification"))
-  #   selectInput('strcol', 'Choose the column for subgrouping data:',
-  #               c("No subgrouping (results summary)",
-  #                 colnames(datatocalcfinal())[1:(ncol(datatocalcfinal())-6)][-1]), width=500)
-  # })
-  
-  
   ## Se crea la tabla con los resultados de los estudios estratificados
   datastr = function(){
     req(input$strcol)
@@ -956,7 +946,7 @@ shinyServer(function(input, output, session) {
     validate(
       need(try(results_grouped(datatocalcfinal(), columns(), input$strcol)), "Something has failed. Please, check your data input.")
     )
-    results_grouped(datatocalcfinal(), columns(), input$strcol)
+    results_grouped(datatocalcfinal(), columns(), input$strcol, input$modelStra)
 
   }
   
@@ -980,15 +970,7 @@ shinyServer(function(input, output, session) {
     )
   ))
   
-  # shinyjs::hide("stratification")
-  # shinyjs::hide("col")
-  
-  # observe({
-  #   if (input$navbar == "Subgroup analysis"){
-  #     shinyjs::show("col")
-  #   }
-  # })
-  
+
   output$straPanel = renderUI({
     if (input$inputMode != "Interactive table") {
       req(input$inputfile)
@@ -1007,6 +989,11 @@ shinyServer(function(input, output, session) {
           tags$hr(),
           sliderInput("thresholdASSO", label = "Select a p-value threshold", min = 0, 
                       max = 1, value = 0.05, width = "400px"),
+          
+          radioButtons("modelStra", "Select model",
+                       list("Automatic selection based on heterogeneity test" = "auto",
+                            "Fixed Effect Model" = "fixed",
+                            "Random Effect Model" = "random")),
 
           DT::dataTableOutput("stratification")
           )
@@ -1028,6 +1015,11 @@ shinyServer(function(input, output, session) {
           tags$hr(),
           sliderInput("thresholdASSO", label = "Select a p-value threshold", min = 0, 
                       max = 1, value = 0.05, width = "400px"),
+          
+          radioButtons("modelStra", "Select model",
+                       list("Automatic selection based on heterogeneity test" = "auto",
+                            "Fixed Effect Model" = "fixed",
+                            "Random Effect Model" = "random")),
 
           DT::dataTableOutput("stratification")
           )

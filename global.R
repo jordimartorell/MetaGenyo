@@ -294,7 +294,7 @@ models = c("Allele contrast (A vs. a)" = "allele", "Recessive model (AA vs. Aa+a
            "pairw1 (AA vs. aa)" = "pairw1",
            "pairw2 (AA vs. Aa)" = "pairw2", "pairw3 (Aa vs. aa)" = "pairw3")
 
-results_grouped = function(data, columns, group) {
+results_grouped = function(data, columns, group, modelType = "auto") {
   
   if (group == "No subgrouping (results summary)"){
     group = colnames(data)[1]
@@ -335,7 +335,7 @@ results_grouped = function(data, columns, group) {
     # Se comprueba qué modelo se debe usar (fixed o random effect)
     p_heter = round(meta1$pval.Q, 4)
     
-    if (p_heter > 0.1) {   ## Fixed effect
+    if ((p_heter > 0.1 & modelType == "auto") | modelType == "fixed") {   ## Fixed effect
       dataframe[," "] = c(substr(meta3[4], 22, gregexpr(" ", meta3[4])[[1]][6]-1), rep("", ngroups)) ## OR
       dataframe[,"Test of association"] = c(substr(meta3[4], gregexpr("[", meta3[4], fixed=TRUE)[[1]][1], gregexpr("]", meta3[4], fixed=TRUE)[[1]][1]), rep("", ngroups))  ## 95%-CI
       dataframe[,"  "] = c(round(meta2$fixed$p, digits=10), rep("", ngroups)) ## p-value
@@ -389,7 +389,7 @@ results_grouped = function(data, columns, group) {
       else {
         p_heter = round(meta1$pval.Q, 4)
         
-        if (p_heter > 0.1) {   ## Fixed effect
+        if ((p_heter > 0.1 & modelType == "auto") | modelType == "fixed") {   ## Fixed effect
           
           dataframe[x+1," "] = substr(meta3[4], 22, gregexpr(" ", meta3[4])[[1]][6]-1)
           dataframe[x+1,"Test of association"] = substr(meta3[4], gregexpr("[", meta3[4], fixed=TRUE)[[1]][1], gregexpr("]", meta3[4], fixed=TRUE)[[1]][1])

@@ -256,19 +256,7 @@ shinyUI(fluidPage(
                    tags$style(HTML(".cell-border-right{border-right: 1px solid #000}")))
                ),
                textOutput("strnodata"),
-               uiOutput("col"),
                
-               # shinyjs::hidden(div(id="straPanel",
-               #            br(),
-               #            
-               #            
-               #            br(),
-               #            selectInput("strformat", "Choose a format to download your data:", 
-               #                        choices = c("Excel format (.xls)", "Plain-text format (.csv)", "Plain-text format (.tsv)"), width = 200),
-               #            downloadButton('downstr', 'Download'),              
-               #            tags$hr(),
-               #            sliderInput("thresholdASSO", label = "Select a p-value threshold", min = 0, 
-               #                        max = 1, value = 0.05, width = "400px"))),
                uiOutput("straPanel"),
 
 
