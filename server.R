@@ -159,6 +159,8 @@ shinyServer(function(input, output, session) {
     col4 = paste0(input$riskAllele, input$riskAllele, "_Controls")
     col5 = paste0(input$riskAllele, input$refAllele, "_Controls")
     col6 = paste0(input$refAllele, input$refAllele, "_Controls")
+    
+    req(input$hotable1)
 
     dataTable = hot_to_r2(input$hotable1)
     numberCols = ncol(dataTable)
@@ -262,6 +264,7 @@ shinyServer(function(input, output, session) {
 
   datatoshow = reactive({
     if (input$inputMode == "Interactive table") {
+      req(input$hotable1)
       data = hot_to_r2(input$hotable1)
       data = data[apply(data != "", 1, all),]
       if (nrow(data) > 0) {
@@ -471,6 +474,7 @@ shinyServer(function(input, output, session) {
   
   datatocalc = reactive({
     if (input$inputMode == "Interactive table") {
+      req(input$hotable1)
       data = hot_to_r2(input$hotable1)
       data = data[apply(data != "", 1, all),]
       if (nrow(data) > 0) {
@@ -483,7 +487,7 @@ shinyServer(function(input, output, session) {
       validate(
         need(nrow(data) > 1, "To perform the meta-analysis, more than one study data should be introduced.")
       )
-      
+
       return(data)
       
     }
@@ -648,7 +652,7 @@ shinyServer(function(input, output, session) {
     validate(
       need(nrow(datatoshow()) > 1, "You must introduce more than one study to perform a meta-analysis.")
     )
-    
+
     # shinyjs::show("br3")
     # shinyjs::show("br4")
     # shinyjs::show("format")
@@ -657,7 +661,9 @@ shinyServer(function(input, output, session) {
     # shinyjs::show("thresholdHW")
     
     x = try(datatable(datahw(), rownames = F, escape = T, selection = "none", 
-              options=list(paging=FALSE, searching=FALSE, autoWidth=F, columnDefs = list(list(class="dt-center", targets = "_all")))) %>% formatStyle("HW-adjusted.P.value", backgroundColor = styleInterval(thresholds$HW, c("tomato", "palegreen"))))
+              options=list(paging=FALSE, searching=FALSE, autoWidth=F, 
+                           columnDefs = list(list(class="dt-center", targets = "_all")))) %>% 
+              formatStyle("HW-adjusted.P.value", backgroundColor = styleInterval(thresholds$HW, c("tomato", "palegreen"))))
     if (class(x) == "try-error") {
       return(NULL)
     }
@@ -1057,9 +1063,11 @@ shinyServer(function(input, output, session) {
                 "var headerBorder2 = [2,5];",
                 "var header = $(this.api().table().header()).find('tr:first > th').filter(function(index) {return $.inArray(index,headerBorder) > -1 ;}).addClass('cell-border-right');",
                 "var header = $(this.api().table().header()).find('tr:eq(1) > th').filter(function(index) {return $.inArray(index,headerBorder2) > -1 ;}).addClass('cell-border-right');",
-                "}"),paging=FALSE, searching=FALSE, autoWidth=F, columnDefs = list(list(class="dt-center", targets = "_all"),
-                                                                                         list(orderable=FALSE, targets = "_all"),
-                                                                                         list(className="dt-right cell-border-right",targets = "_all")))) %>% formatStyle(6, backgroundColor = styleInterval(thresholds$ASSO, c("palegreen", "tomato"))))
+                "}"),paging=FALSE, searching=FALSE, autoWidth=F, 
+                columnDefs = list(list(class="dt-center", targets = "_all"),
+                                  list(orderable=FALSE, targets = "_all"),
+                                  list(className="dt-right cell-border-right",targets = "_all")))) %>% 
+              formatStyle(6, backgroundColor = styleInterval(thresholds$ASSO, c("palegreen", "tomato"))))
     if (class(x) == "try-error") {
       return(NULL)
     }

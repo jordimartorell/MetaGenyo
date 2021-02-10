@@ -121,8 +121,8 @@ writemeta = function (data, model, columns, mode = 0) {
   metao2[2,2] = substr(meta3[5], 22, gregexpr(" ", meta3[5])[[1]][4]-1)
   metao2[1,3] = substr(meta3[4], gregexpr("[", meta3[4], fixed=TRUE)[[1]][1], gregexpr("]", meta3[4], fixed=TRUE)[[1]][1])
   metao2[2,3] = substr(meta3[5], gregexpr("[", meta3[5], fixed=TRUE)[[1]][1], gregexpr("]", meta3[5], fixed=TRUE)[[1]][1])
-  metao2[1,4] = round(meta2$fixed$z, digits=4)
-  metao2[2,4] = round(meta2$random$z, digits=4)
+  metao2[1,4] = round(meta2$fixed$statistic, digits=4)
+  metao2[2,4] = round(meta2$random$statistic, digits=4)
   metao2[1,5] = round(meta2$fixed$p, digits=10)
   metao2[2,5] = round(meta2$random$p, digits=10)
   if (metao2[1,5] == 0) {
@@ -151,7 +151,6 @@ writemeta = function (data, model, columns, mode = 0) {
     metao2[2,6] = "< 1e-10"
   }
   metao3 = "Heterogeneity tests:"
-  ###server###tau2 = meta2$tau
   tau2 = meta2$tau$TE
   metanuevo = matrix(nrow=1, ncol=5, dimnames = list(1, c("tau^2", "H", "I^2", "Q", "p-value")),
                      data = c(round(tau2^2, digits=4), round(meta2$H$TE, digits=4), round(meta2$I2$TE, digits=4),
