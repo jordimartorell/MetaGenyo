@@ -196,7 +196,7 @@ shinyServer(function(input, output, session) {
       col5 = paste0(input$riskAllele, input$refAllele, "_Controls")
       col6 = paste0(input$refAllele, input$refAllele, "_Controls")
 
-      dataTable = read_excel("www/Zhang.xlsx")
+      dataTable = read.xls("www/Zhang.xlsx")
       colnames(dataTable) = c("Study", "Ethnicity", "Source_controls", "Genotyping_method", col1, col2, col3, col4, col5, col6)
       return(dataTable)
 
@@ -243,7 +243,7 @@ shinyServer(function(input, output, session) {
   
   output$char = renderUI({
     if(!is.null(input$inputfile)){
-      if (grepl("Error", try(read_excel(input$inputfile[,4])))){
+      if (grepl("Error", try(read.xls(input$inputfile[,4])))){
         list(tags$hr(),
              h4("Specify your input characteristics"),
              
@@ -276,7 +276,7 @@ shinyServer(function(input, output, session) {
     }
     else {
       req(input$inputfile)
-      if (grepl("Error", try(read_excel(input$inputfile[,4])))){
+      if (grepl("Error", try(read.xls(input$inputfile[,4])))){
         data = read.delim(input$inputfile[,4], sep=input$sep,
                           header=T, quote=input$quote)
         data[,1] = make.unique(as.character(data[,1]), sep = "_")
@@ -284,7 +284,7 @@ shinyServer(function(input, output, session) {
       }
       
       else {
-        data = read_excel(input$inputfile[,4])
+        data = read.xls(input$inputfile[,4])
         data[,1] = make.unique(as.character(data[,1]), sep = "_")
         
       }
@@ -494,14 +494,14 @@ shinyServer(function(input, output, session) {
     else {
       req(input$inputfile)
       
-      if (grepl("Error", try(read_excel(input$inputfile[,4])))){
+      if (grepl("Error", try(read.xls(input$inputfile[,4])))){
         data = read.delim(input$inputfile[,4], sep=input$sep,
                           header=T, quote=input$quote)
         data[,1] = make.unique(as.character(data[,1]), sep = "_")
       }
       
       else {
-        data = read_excel(input$inputfile[,4])
+        data = read.xls(input$inputfile[,4])
         data[,1] = make.unique(as.character(data[,1]), sep = "_")
       }
       validate(
