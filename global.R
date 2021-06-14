@@ -8,7 +8,8 @@ library(rhandsontable)
 library('HardyWeinberg')
 library(meta)
 library (metafor)
-require(readxl)
+library(gdata)
+#require(readxl)
 options(shiny.sanitize.errors = FALSE)
 
 
