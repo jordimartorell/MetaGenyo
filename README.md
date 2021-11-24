@@ -10,35 +10,32 @@ All the Shiny applications have the same basic structure:
 * **data folder**: Put here the internal data necessary to run the application (not applicable in this application).
  
  ## Deployment
- This tool is currently deployed on the virtual machine imageo.genyo.es (IP 192.168.2.35) of GENyO. THe installed SO in this machine is Ubuntu 18.04.4 LTS.
+ This tool is currently deployed on the virtual machine metagenyo.genyo.es (IP 192.168.2.40) of GENyO. THe installed SO in this machine is Ubuntu 20.04.
  
  ### Install dependencies
- #### R >= 3.6.3
+ #### R >= 4.0.3
 ```
 sudo apt install apt-transport-https software-properties-common
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/'
+sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'
 sudo apt update
 sudo apt install r-base
-sudo apt install build-essential
-sudo apt-get install libgdal-dev
+sudo apt install libxml2-dev
+#sudo apt install build-essential
+#sudo apt-get install libgdal-dev
 ```
  #### R packages
 ```
 sudo R
-install.packages(c('shiny','leaflet', 'DT', 'ggplot2', 'plotly', 'rgdal', 'plyr', 'shinycssloaders', 'shinythemes','leaflet.extras','leaflet.extras2', 'scales', 'ppcor'))
+install.packages(c('shiny', 'HardyWeinberg', 'meta', 'WriteXLS', 'DT', 'shinyjs', 'shinyBS', 'rhandsontable', 'metafor', 'readxl'))
 ```
  #### Shiny Server
 ```
 sudo apt-get install gdebi-core
 # Check last version link at https://rstudio.com/products/shiny/download-server/ubuntu/
-wget https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-1.5.13.944-amd64.deb
-sudo gdebi shiny-server-1.5.13.944-amd64.deb
-sudo chown -R shiny:shiny srv/shiny-server/
-```
- #### Other dependencies
-```
-sudo apt-get install libssl-dev
+wget https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-1.5.16.958-amd64.deb
+sudo gdebi shiny-server-1.5.16.958-amd64.deb
+sudo chown -R shiny:shiny /srv/shiny-server/
 ```
  ### Install and configure Apache
  Installation:
@@ -57,9 +54,9 @@ sudo nano /etc/apache2/sites-available/000-default.conf
 Copy this into <VirtualHost *:80>:
 ```
 	ProxyPreserveHost On
-	ProxyPass / http://covid19.genyo.es:3838/
-	ProxyPassReverse / http://covid19.genyo.es:3838/
-	ServerName covid19.genyo.es```
+	ProxyPass / http://metagenyo.genyo.es:3838/
+	ProxyPassReverse / http://metagenyo.genyo.es:3838/
+	ServerName metagenyo.genyo.es```
 ```
 Save the file and restart:
 ```
@@ -87,7 +84,7 @@ After creating a new account in Google Analytics (user bioinformatics.genyo@gmai
 sudo nano /etc/shiny-server/shiny-server.conf
 
 # add this:     
-google_analytics_id "UA-164531993-1";
+google_analytics_id "UA-73815835-1";
 
 directory_index off
 ```
@@ -111,7 +108,7 @@ sudo certbot --apache
 ### Clone the application
 ```
 cd /srv/shiny-server
-sudo git clone https://github.com/jordimartorell/DatAC2.git .
+sudo git clone https://github.com/jordimartorell/metagenyo.git .
 
 sudo chown -R shiny:shiny *
 ```
